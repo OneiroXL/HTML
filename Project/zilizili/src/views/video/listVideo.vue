@@ -1,42 +1,16 @@
 <template>
   <div>
-      <el-button type="primary" @click="GoToAddVideo">添加</el-button>
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-        <el-table-column
-          fixed
-          prop="Title"
-          label="标题"
-          width="200">
-        </el-table-column>
-        <el-table-column
-          prop="URL"
-          label="地址"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <!-- <el-button type="primary" @click="GoToAddVideo">添加</el-button> -->
+      <TableList v-bind:tableOptions="tableOptions"></TableList>
   </div>
 </template>
-
 <script>
 import { GetVideoList } from '@/api/video/index.js'
+import TableList from '@/components/tableList.vue'
 export default {
-  data () {
-      return {
-          tableData: []
-      }
-  },
+  components: {
+      TableList
+	},
   created:function(){
       
   },
@@ -47,20 +21,55 @@ export default {
     //获取列表
     GetVideoList(){
       this.$api.auto(GetVideoList, {}, response =>{
-        if(response.Status == 10000){
-          this.tableData = response.Data
-        }else{
-          this.$notify({
-            title: '警告',
-            message: response.Message,
-            type: 'warning'
-          });
-        }
+          if(response.Status == 10000){
+              this.tableOptions.TableData = response.Data
+          }else{
+              this.$notify({
+                title: '警告',
+                message: response.Message,
+                type: 'warning'
+              });
+          }
       });
     },
     GoToAddVideo(){
       this.$router.push({path: '/AddVideo'})
+    },
+    ToolsClickHandle(data,buttonType){
+      console.log(data);
+      console.log(buttonType);
     }
-  }
+  },
+  data () {
+    return {
+      tableOptions:{
+          HeadFiles:[
+            {
+              FileID:"Title",
+              FileName:"标题",
+              Width:"200",
+              Align:"center"
+            },
+            {
+              FileID:"URL",
+              FileName:"地址",
+              Width:"500",
+              Align:"center"
+            }
+          ],
+          ToolButtons:[
+            {
+                ButtonType:"Show",
+                ButtonName:"查看",
+            },
+            {
+                ButtonType:"Edit",
+                ButtonName:"编辑",
+            }
+          ],
+          TableData:[]
+      }
+    }
+  },
 }
 </script>

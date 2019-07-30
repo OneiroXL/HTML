@@ -12,5 +12,12 @@ export default [
     component: () => import(
       '../views/video/listVideo.vue'
     )
+  },
+  {
+    path: '/PlayVideo',
+    name: 'PlayVideo',
+    component: () => import(
+      '../views/video/playVideo.vue'
+    )
   }
 ]

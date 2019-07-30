@@ -11,6 +11,16 @@ export const GetVideoList = {
 /**
  * 添加视频接口
  */
+export const GetVideo = {
+    //Url:'/zcaccount/login',
+    Url:'/api/v1/video/GetVideo',
+    Type:'GET',
+    IsJson:false,
+}
+
+/**
+ * 添加视频接口
+ */
 export const AddVideo = {
     //Url:'/zcaccount/login',
     Url:'/api/v1/video/AddVideo',

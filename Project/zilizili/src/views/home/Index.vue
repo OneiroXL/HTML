@@ -1,37 +1,80 @@
 <template>
     <el-row :gutter="20">
-        <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-        <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-        <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-        <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="3" v-for="video in videoList" :key="video.ID">
+        <el-card class="video-card" @click.native="PlayVideo(video)">
+          <img :src="video.CoverUrl" class="image">
+          <div style="padding: 14px;">
+            <span class="Title">标题:{{video.Title}}</span>
+            <div class="Info">
+              <span>简介:{{video.Info}}</span>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
     </el-row>
 </template>
-
-<style>
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
+<script>
+import { GetVideoList } from '@/api/video/index.js'
+export default {
+  data() {
+      return {
+          videoList: [],
+      };
+  },
+  created:function(){
+      
+  },
+  beforeMount() {
+      this.GetVideoList();
+  },
+  methods:{
+    //获取列表
+    GetVideoList(){
+      this.$api.auto(GetVideoList, {}, response =>{
+        if(response.Status == 10000){
+          this.videoList = response.Data
+        }else{
+          this.$notify({
+            title: '警告',
+            message: response.Message,
+            type: 'warning'
+          });
+        }
+      });
+    },
+    PlayVideo(video){
+      this.$router.push({ name: 'PlayVideo', query: { videoID: video.ID } });
     }
   }
-  .el-col {
-    border-radius: 4px;
+}
+</script>
+<style>
+  .Title  {
+    font-size: 12px;
+    letter-spacing:1px;
+    color: #999;
   }
-  .bg-purple-dark {
-    background: #99a9bf;
+  .Info{
+    font-size: 10px;
+    letter-spacing:1px;
+    color: #999;
+    text-overflow:ellipsis;/*表示文本超出用省略号代替*/
+    white-space:nowrap;/*表示文本不换行*/
+    overflow:hidden;/*表示超出隐藏；*/
   }
-  .bg-purple {
-    background: #d3dce6;
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
   }
-  .bg-purple-light {
-    background: #e5e9f2;
+  .button {
+    padding: 0;
+    float: right;
   }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
+  .video-card {
+    cursor: pointer;
   }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
+  .image {
+    width: 100%;
+    display: block;
   }
 </style>
