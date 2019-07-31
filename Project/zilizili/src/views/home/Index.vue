@@ -1,6 +1,6 @@
 <template>
-    <el-row :gutter="20">
-      <el-col :span="3" v-for="video in videoList" :key="video.ID">
+    <el-row>
+      <el-col :span="3" v-for="video in videoList" :key="video.ID" style="padding:10px;">
         <el-card class="video-card" @click.native="PlayVideo(video)">
           <img :src="video.CoverUrl" class="image">
           <div style="padding: 14px;">
@@ -30,7 +30,7 @@ export default {
   methods:{
     //获取列表
     GetVideoList(){
-      this.$api.auto(GetVideoList, {}, response =>{
+      this.$api.auto(GetVideoList, {PageIndex:1,PageSize:100}, response =>{
         if(response.Status == 10000){
           this.videoList = response.Data
         }else{

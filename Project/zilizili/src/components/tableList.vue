@@ -1,8 +1,10 @@
 <template>
+<div>
   <el-table
     :data="tableOptions.TableData"
     border
-    style="width: 100%">
+    style="width: 100%"
+    class="Table">
     <el-table-column v-if="tableOptions.Ismultiple"
       type="selection"
       width="55"
@@ -23,7 +25,7 @@
     <el-table-column
       fixed="right"
       label="操作"
-      width="100">
+      width="150">
       <template slot-scope="scope">
         <el-button v-for="toolButton in tableOptions.ToolButtons" :key="toolButton.ButtonType"
         @click="HandleClick(scope.row,toolButton.ButtonType)"
@@ -34,6 +36,7 @@
       </template>
     </el-table-column>
   </el-table>
+</div>
 </template>
 <script>
   export default {
@@ -55,3 +58,8 @@
     }
   }
 </script>
+<style>
+  .Table td{
+      padding: 5px 0;
+  }
+</style>

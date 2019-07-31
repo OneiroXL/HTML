@@ -55,17 +55,9 @@ export default {
         onSubmit() {
             this.$api.auto(AddVideo, this.form, response =>{
                 if(response.Status == 10000){
-                    this.$notify({
-                        title: '成功',
-                        message: response.Message,
-                        type: 'success'
-                    });
+                    this.$Notify.SuccessNotification("投稿成功")
                 } else {
-                    this.$notify({
-                        title: '警告',
-                        message: response.Message,
-                        type: 'warning'
-                    });
+                    this.$Notify.WarningNotification(response.Message)
                 }
             });
         }

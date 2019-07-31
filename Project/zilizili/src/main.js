@@ -5,9 +5,12 @@ import App from './App'
 import router from './router'
 import './plugins/element'
 import Api from './api/axios.js'
+import Notify from './assets/js/notify.js'
 
 Vue.config.productionTip = false
 
+Vue.prototype.$api = Api;
+Vue.prototype.$Notify = Notify;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -16,4 +19,3 @@ new Vue({
   template: '<App/>'
 })
 
-Vue.prototype.$api = Api;
