@@ -57,6 +57,7 @@ export default {
         height: 178px;
         line-height: 178px;
         text-align: center;
+        border: 1px dashed #d9d9d9;
     }
     .avatar {
         width: 178px;

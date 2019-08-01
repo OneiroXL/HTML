@@ -2,7 +2,7 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="paginationOptions.CurrentPage"
+      :current-page="paginationOptions.PageIndex"
       :page-sizes="[10, 30, 50, 100]"
       :page-size="paginationOptions.PageSize"
       layout="total, sizes, prev, pager, next, jumper"
@@ -21,13 +21,11 @@
         },
         methods: {
             handleSizeChange(val) {
-                this.$parent.paginationOptions.PageSize = val;
-                this.$parent.Action("this.GetVideoList()");
+                this.$emit("HandlePageChange","size",val)
             },
             handleCurrentChange(val) {
-                this.$parent.paginationOptions.CurrentPage = val;
-                this.$parent.Action("this.GetVideoList()");
-            }
+                this.$emit("HandlePageChange","index",val)
+            },
         }
     }
 </script>

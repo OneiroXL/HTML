@@ -36,24 +36,55 @@
       </template>
     </el-table-column>
   </el-table>
+  <Pagination v-if="tableOptions.PaginationOptions.IsPage" v-bind:paginationOptions="tableOptions.PaginationOptions.Options" @HandlePageChange="HandlePageChange"></Pagination>
 </div>
 </template>
 <script>
+import Pagination from '@/components/pagination.vue'
   export default {
+    components: {
+        Pagination
+	  },
     props: {
         tableOptions: {
             type: Object,
             default: undefined
         },
     },
+    mounted:function(){
+      this.GetListData();
+    },
     methods: {
         HandleClick(row,buttonType) {
             this.$parent.ToolsClickHandle(row,buttonType);
+        },
+        GetListData(){
+            this.tableOptions.Param.PageIndex = this.tableOptions.PaginationOptions.Options.PageIndex;
+            this.tableOptions.Param.PageSize = this.tableOptions.PaginationOptions.Options.PageSize;
+            this.$api.auto(this.tableOptions.Api, this.tableOptions.Param, response =>{
+                if(response.Status == 10000){
+                    this.tableOptions.TableData = response.Data
+                    this.tableOptions.PaginationOptions.Options.Total = response.Count
+                }else{
+                    this.$Notify.WarningNotification(response.Message)
+                }
+            });
+        },
+        HandlePageChange(type,val){
+            switch(type){
+                case "size":{
+                    this.tableOptions.PaginationOptions.Options.PageSize = val;
+                }break
+                case "index":{
+                   this.tableOptions.PaginationOptions.Options.PageIndex = val;
+                }break
+            }
+            this.GetListData();
         }
     },
     data() {
         return {
-            tableData: []
+            
         }
     }
   }
