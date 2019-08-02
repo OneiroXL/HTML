@@ -33,21 +33,7 @@ function apiAxios(method, url, params, response) {
 }
 
 function ErrorHandle(err){
-  var data = err.response.data;
-  switch(err.response.status){
-    case 401:{ 
-      this.$notify({
-        title: '警告',
-        message: '这是一条警告的提示消息',
-        type: 'warning'
-      });
-    }break;
-    case 404:{ alert(err.response.status); }break;
-    case 500:{ alert(err.response.status); }break;
-    default:{
-      
-    }
-  }
+  console.log(err,"error")
 }
 
 export default {

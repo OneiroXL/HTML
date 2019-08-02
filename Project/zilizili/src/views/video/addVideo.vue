@@ -57,7 +57,7 @@ export default {
                 if(response.Status == 10000){
                     this.$Notify.SuccessNotification("投稿成功")
                 } else {
-                    this.$Notify.WarningNotification(response.Message)
+                    this.$Notify.AutoNotification(response.Message,response.Status)
                 }
             });
         }
